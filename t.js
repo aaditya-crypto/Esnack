@@ -1,5 +1,5 @@
-const del = document.getElementById(delulu);
-const lis = document.getElementById(add-items);
+const del = document.getElementById("add-task");
+const lis = document.getElementById("add-items");
 
 function Taskdalo(){
     if(del.value === ''){
@@ -12,25 +12,27 @@ function Taskdalo(){
         let span = document.createElement("span");
         span.innerHTML = "\u274C";
         li.appendChild(span);
+
+        storedata(del.value);
     }
     del.value = "";
-    locsto();
 }   
-lis.addEventListener("click", function(e)){
-    if(e.target.tagname ==="li"){
-        e.target.classlist.toggle("check-karo");
-        locsto();
+lis.addEventListener("click", function(e){
+    console.log(e.target.tagName);
+    if(e.target.tagName =="LI"){
+        e.target.classList.toggle("check-karo");
     }
-    else if(e.target.tagname ==="span"){
-        e,target.parentElement.remove();
-        locsto();
+    else if(e.target.tagName === "SPAN"){
+        e.target.parentElement.remove();
+        
     }
-}
+})
 
-function locsto(){
-    localStorage.setItem("data", lis.innerHTML);
+function storedata(teask){
+
+    localStorage.setItem("data", teask);
 }
 function showtask(){
-    lis.innerHTML = localStorage.getitem("data");
+    lis.innerHTML = localStorage.getItem("data");
 }
 showtask();
