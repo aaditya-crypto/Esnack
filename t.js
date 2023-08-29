@@ -1,17 +1,13 @@
 const input = document.getElementById("plus");
 const lis = document.getElementById("add-items");
-//const ul = document.querySelector("ul.add-items");
-//const arr = Array.from(lis);
- let itemsarray = localStorage.getItem("plus") ? 
- JSON.parse(localStorage.getItem("plus")) : [];
+let itemsarray = localStorage.getItem("plus") ?
+    JSON.parse(localStorage.getItem("plus")) : [];
 
-//var toto ={};
-
-function Taskdalo(){
-    if(input.value === ''){
+function Taskdalo() {
+    if (input.value === '') {
         alert("Write something first!");
     }
-    else{
+    else {
         let li = document.createElement("li");
         li.innerHTML = input.value;
         lis.appendChild(li);
@@ -22,36 +18,39 @@ function Taskdalo(){
         storedata();
     }
     input.value = "";
-    
-}   
+
+}
 lis.addEventListener("click", function (e) {
     if (e.target.tagName === "LI") {
         e.target.classList.toggle("check-karo");
     } else if (e.target.tagName === "SPAN") {
-        const taskText = e.target.parentElement.textContent.trim();
+        let children = e.target.parentElement.children;
+        let parentElement = e.target.parentElement;
+        let childrenArray = Array.from(children);
+        childrenArray.forEach(elem => {
+            elem.remove();
+        })
+        console.log(childrenArray);
+        const taskText = parentElement.innerText;
         const taskIndex = itemsarray.indexOf(taskText);
         if (taskIndex !== -1) {
-            itemsarray.splice(taskIndex, 1); 
-            localStorage.setItem("plus", JSON.stringify(itemsarray)); 
+            itemsarray.splice(taskIndex, 1);
+            localStorage.setItem("plus", JSON.stringify(itemsarray));
+
         }
-        e.target.parentElement.remove();
+        parentElement.remove();
     }
 });
+function storedata() {
+    itemsarray.push(input.value);
+    localStorage.setItem("plus", JSON.stringify(itemsarray));
+}
 
-
-
-function storedata(){
-     itemsarray.push(input.value);
-     localStorage.setItem("plus",JSON.stringify(itemsarray));
-    
-      
- }
-  
- function showtask() {
+function showtask() {
     const storedItems = JSON.parse(localStorage.getItem("plus"));
 
     if (storedItems) {
-        itemsarray = storedItems; 
+        itemsarray = storedItems;
         storedItems.forEach(item => {
             let li = document.createElement("li");
             li.innerHTML = item;
